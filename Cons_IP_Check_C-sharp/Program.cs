@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cons_IP_Check_C_sharp
 {
+	/* TODO: 
+		2 mögliche Varianten: methode (ggf. auch Klasse) unten static  machen, dann müssen die Klassenvariablen raus,
+							oder Objekt erzeugen und über Objektname.methode() auf rückgabewert zugreifen...
+	*/
+
 	class Program
 	{
 		static void Main(string[] args)
@@ -16,20 +21,23 @@ namespace Cons_IP_Check_C_sharp
 			eingabeIP = Console.ReadLine ();
 
 			CipValidate IP = new CipValidate (eingabeIP);
-			CipValidate IP2 = new CipValidate ("192.168.1.1");
+			//CipValidate IP2 = new CipValidate ("192.168.1.1");
 			
 			
 
-			if (true)
-			Console.WriteLine("Die Eingegebene IP ist gültig!");
-			//else Console.WriteLine("Die eingegebene IP ist ungültig");
+			//if ( ) == true)
+			{
+
+				Console.WriteLine("Die Eingegebene IP ist gültig!");
+				//else Console.WriteLine("Die eingegebene IP ist ungültig");
+			}
 		}
 	}
 
 	class CipValidate
 	{
 		string teilIP;
-		//public bool IPvalid = false;
+		
 		public string TeilIP { get => teilIP; set => teilIP = value; }
 		public bool IPvalid { get => IPvalid; set => IPvalid = value; }
 		//public string TeilIP3 { get => teilIP3; set => teilIP3 = value; }
@@ -37,31 +45,33 @@ namespace Cons_IP_Check_C_sharp
 
 		public CipValidate()
 		{
-			CipValidator();
+			
+			//CipValidator();
 		}
 		
 		public CipValidate(string eingabeIP)
 		{
-			teilIP= eingabeIP;
+			teilIP = eingabeIP;
+			
 			
 		}
 		
 		
 
-		public bool CipValidator() //(string teilIP)
+		public string CipValidator() //(string teilIP)
 		{
 			
 			
-			char zeichen = '.';
-			int zahl = teilIP.IndexOf(zeichen);
-			teilIP = teilIP.Substring(3);
+				// "cut-off bei kurzen ip´s zu hoch,..."
+				char zeichen = '.';
+				int zahl = teilIP.IndexOf(zeichen);
+				teilIP = teilIP.Substring(zahl + 1);
 
-			Console.WriteLine("teilIP {0}, zahl {1}, zeichen {2}", teilIP, zahl, zeichen);
-
+				Console.WriteLine("teilIP {0}, zahl {1}, zeichen {2}", teilIP, zahl, zeichen);
+				IPvalid = true;
+				return teilIP;
+				
 			
-
-		return true;
-
 		}
 
 		/*
