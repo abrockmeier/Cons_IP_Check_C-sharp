@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cons_IP_Check_C_sharp
 {
-	/* TODO: 
-		2 mögliche Varianten: methode (ggf. auch Klasse) unten static  machen, dann müssen die Klassenvariablen raus,
-							oder Objekt erzeugen und über Objektname.methode() auf rückgabewert zugreifen...
-	*/
-
 	class Program
 	{
 		static void Main(string[] args)
 		{
+<<<<<<< HEAD
 			string eingabeIP;
 			
 			Console.WriteLine("Bitte IP Adresse eingeben: ");
@@ -44,17 +40,39 @@ namespace Cons_IP_Check_C_sharp
 			
 			
 			
+=======
+			public CIPAdresse IP = new CIPAdresse();
 
-			//if ( ) == true)
-			{
+			if (IP.SetIP("12.111.222.123") == true)
+				Console.WriteLine("IP-Adresse ist OK!");
+			else Console.WriteLine("IP Adresse ist nicht OK!");
+>>>>>>> b313862452071b3ab449e50c14e0df387625c187
 
+			if (IP.SetIP("..0.000") == true)
+				Console.WriteLine("IP-Adresse ist OK!");
+			else Console.WriteLine("IP Adresse ist nicht OK!");
+
+<<<<<<< HEAD
 				Console.WriteLine("Die Eingegebene IP ist gültig!");
 			}
 
 			
+=======
+			if (IP.SetIP("012.1.10.000") == true)
+				Console.WriteLine("IP-Adresse ist OK!");
+			else Console.WriteLine("IP Adresse ist nicht OK!");
+
+			if (IP.SetIP("123.12.0.") == true)
+				Console.WriteLine("IP-Adresse ist OK!");
+			else Console.WriteLine("IP Adresse ist nicht OK!");
+>>>>>>> b313862452071b3ab449e50c14e0df387625c187
 		}
 	}
+}	
+			//Console.WriteLine("Bitte IP Adresse eingeben: ");
+			//eingabeIP = Console.ReadLine ();
 
+<<<<<<< HEAD
 	class CipValidate
 	{
 		public static int TeilIP { get => TeilIP; set => TeilIP = value; }
@@ -77,3 +95,22 @@ namespace Cons_IP_Check_C_sharp
 }
 			//CipValidate IP = new CipValidate (eingabeIP);
 			//CipValidate IP2 = new CipValidate ("192.168.1.1");
+=======
+			//CipValidate IP = new CipValidate (eingabeIP);
+			//CipValidate IP2 = new CipValidate ("192.168.1.1");
+			
+			
+
+			//if ( ) == true)
+			
+
+				//Console.WriteLine("Die Eingegebene IP ist gültig!");
+				//else Console.WriteLine("Die eingegebene IP ist ungültig");
+			
+
+	
+
+	
+
+
+>>>>>>> b313862452071b3ab449e50c14e0df387625c187
