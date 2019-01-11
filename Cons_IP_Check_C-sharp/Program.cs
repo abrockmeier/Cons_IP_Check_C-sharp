@@ -12,28 +12,73 @@ namespace Cons_IP_Check_C_sharp
 	{
 		static void Main(string[] args)
 		{
+			bool loopbreak = false;
 			CIPAdresse IP = new CIPAdresse();
 			//CIPAdresse.Dot = '.'; //Stack overflow wtf...
 
 			if (IP.SetIP("12.111.222.123") == true)
-				Console.WriteLine("IP-Adresse ist OK!");
-			else Console.WriteLine("IP Adresse ist nicht OK!");
+				Console.WriteLine("Die IP-Adresse ist OK!");
+			else Console.WriteLine("Die IP Adresse ist nicht OK!");
+	
+			Console.WriteLine("==========NeXt Ip=========");
 
 			if (IP.SetIP("..0.000") == true)
-				Console.WriteLine("IP-Adresse ist OK!");
-			else Console.WriteLine("IP Adresse ist nicht OK!");
-	
+				Console.WriteLine("Die IP-Adresse ist OK!");
+			else Console.WriteLine("Die IP Adresse ist nicht OK!");
+
+			Console.WriteLine("==========NeXt Ip=========");
 			
 			if (IP.SetIP("012.1.10.000") == true)
-				Console.WriteLine("IP-Adresse ist OK!");
-			else Console.WriteLine("IP Adresse ist nicht OK!");
+				Console.WriteLine("Die IP-Adresse ist OK!");
+			else Console.WriteLine("Die IP Adresse ist nicht OK!");
+
+			Console.WriteLine("==========NeXt Ip=========");
 	
 			if (IP.SetIP("123.12.0.") == true)
-				Console.WriteLine("IP-Adresse ist OK!");
-			else Console.WriteLine("IP Adresse ist nicht OK!");
+				Console.WriteLine("Die IP-Adresse ist OK!");
+			else Console.WriteLine("Die IP Adresse ist nicht OK!");
 			
-			//	Todo: eingabe von IP´s...
+			Console.WriteLine("Auto Test´s abgeschlossen! \n" +
+			"Zum Fortfahren bitte eine Taste drücken!");
 			Console.ReadKey();
+
+			Console.Clear();
+			Console.WriteLine();
+			Console.WriteLine("			Eingabeaufforderung:		");
+			Console.WriteLine();
+			while(!loopbreak)
+			{
+				Console.WriteLine("Wenn Sie eine eigene IP testen wollen bitte 'i' drücken ");
+				Console.WriteLine("Zum beenden bitte 'x' drücken!");
+				//Console.Clear();
+				ConsoleKeyInfo caseInput = Console.ReadKey(true);
+                StringBuilder output = new StringBuilder(
+                    String.Format("Ihre Auswahl: {0}", caseInput.KeyChar));
+                Console.WriteLine(output.ToString());
+
+				switch (caseInput.Key)
+				{
+					case ConsoleKey.I:
+						Console.WriteLine("Bitte geben Sie eine Ip zum Validieren ein:");
+						string eingabeIP = Console.ReadLine();
+						if (IP.SetIP(eingabeIP))
+						{
+							Console.WriteLine("Die IP-Adresse ist OK!");
+							//loopbreak = true;
+						}
+						else Console.WriteLine("Bitte eine gültige IP Im Format " +
+						"(0-254).(0-254).(0-254).(0-254) eingeben!");			
+						break;
+						
+					case ConsoleKey.X:
+						loopbreak = true;
+						Console.WriteLine("Auf Wiedertschüss!");
+						break;
+					default:
+						Console.WriteLine("Bitte drücken sie 'i' oder 'x' !");	
+						break;
+				}
+			}
 		}
 	}
 
@@ -59,18 +104,21 @@ namespace Cons_IP_Check_C_sharp
 		public bool SetIP(int a, int b, int c, int d)
 		{
 			IP = String.Concat(a, ".", b, ".", c, ".", d);
-			return false;
-			// return true or false denpending on result of IP validation...
+			if (ValidateIP(IP))
+				return true;
+			else
+			{
+				return false;
+			}
 		}
 
 		public bool SetIP(string s)
 		{
 			IP = s;
-			if (ValidateIP(s))
+			if ((IP.Length >= 8 && IP.Length <= 15) && ValidateIP(IP))
 				return true;
 			else
 			{
-				Console.WriteLine( "0.0.0.0" );
 				return false;
 			}
 			// return true or false denpending on result of IP validation...
@@ -81,134 +129,57 @@ namespace Cons_IP_Check_C_sharp
 			return IP;
 		}
 
-		//public static int TeilIP { get => TeilIP; set => TeilIP = value; }
-		
-		//public static bool ValidIP { get => ValidIP; set => ValidIP = value; }
-
-		//public static char Dot { get => Dot; set => Dot = value;}
-
-		public static void ValidateIP()
-		{
-			// methode überflüssig?
-		}
-
-		/*
-		public string CIPAdressenCutter(string s)
-		{
-				
-				// "cut-off bei kurzen ip´s zu hoch,..."
-				char zeichen = '.';
-				int Teilstelle = s.IndexOf(zeichen);
-				string st = s.Substring(Teilstelle + 1);
-
-				Console.WriteLine("teilIP {0}, zahl {1}, zeichen {2}", st, Teilstelle, zeichen);
-				if (Convert.ToInt32(st) > 0 && 256 > Convert.ToInt32(st))
-				return st;
-				else return("");
-		}
-		*/
-
 		public static bool ValidateIP(string s)
 		{
-			// cuttof
-			//int dotAT = s.IndexOf(CIPAdresse.Dot);
-			string[] tsArray = Regex.Split(s, @"(?<=[.])");
-			for (int i = 0; i < 4; i++)
-			{
-				//	Hier die '.'e aus den Teilstrings 1-3 entfernen. 
-				//	(in tsArray[3] sollte kein . drin sein sonst: return false... )
-				//	dann noch die Teilstrings mittels Boxing auf Wertebereich überprüfen...
-				// wenn alles okay return true ...
-
-				Console.WriteLine(tsArray[i]);
-			}
-			Console.WriteLine();
-			return true;
-			//string tsB = tsArray[3] = s.Substring(Dot + 1);
-		}
-
-
-		//public static void validateIP(int a, int b, int c, int d) //(string teilIP)
-		//{
-			
-		//}
-
-
-	}
-	
-	//	Stings verwenden, private Methoden schreiben, um IP Adressen zu testen...
-
-}
-
-
-// Old Stuff´s Clipboard
-/*
-// Eingabe einer zu testenden IP!
-			
-
-			// Hier wird der String bestenfalls geschnippelt 
-			public string EingabeIP { get => eingabeIP; set => eingabeIP = value; }
-
-
-
-		(zahl > 3)
-				Console.WriteLine("Falsches Eingabeformat x.x.x.x (255 > x > 0)");
+			char dot = '.';
+			int dotpos = s.IndexOf(dot);
+			string ts1 = s.Substring(0, dotpos);
+			string tsR = s.Substring(dotpos + 1);
+			dotpos = tsR.IndexOf(dot);
+			string ts2 = tsR.Substring(0, dotpos);
+			tsR = tsR.Substring(dotpos + 1);
+			dotpos = tsR.IndexOf(dot);
+			string ts3 = tsR.Substring(0, dotpos);
+			tsR = tsR.Substring(dotpos + 1);
+			Console.WriteLine(" Ergebnis der Prüfung:		");
+			//uint = ts1u;
+			bool ts1b = UInt32.TryParse(ts1, out uint ts1u);
+			if (ts1b && (0 <= ts1u && ts1u < 255)) ts1 = Convert.ToString(ts1u);
 			else
-				Console.WriteLine("Bereit für die weitere Verarbeitung!");
-			Console.WriteLine(" {0} <|Zahl|,  {1} <|ZahlL|", zahl, zahlL);
-			Console.ReadKey();
-*/
-		/*
-			Console.WriteLine("Bitte IP Adresse eingeben: ");
-			eingabeIP = Console.ReadLine();
-
-			//	Zahl > 3 abfangen!... buchstaben abfangen, sonstige zeichen statt punkt abfangen..
-			char zeichen = '.';
-			int zahl = EingabeIP.IndexOf(zeichen);
-			int zahlL = EingabeIP.Length;
-		*/
-		// methode mit Substring()
-		// methode mit IndexOf()...
-		
-
-
-		//string teilIP;
-		
-		//public string IP { get => IP; set => IP = value; }
-		//public bool IPvalid { get => IPvalid; set => IPvalid = value; }
-		//public string TeilIP3 { get => teilIP3; set => teilIP3 = value; }
-		//public string TeilIP4 { get => teilIP4; set => teilIP4 = value; }
-
-		//public CIPAdresse()
-		//{
-		//}
-		/*
-		public CIPAdresse(string a,int b, int c,int d)
-		{
-		IP = Convert.ToString(a);
-		}*/
-
-/*
-
-	
-		Console.WriteLine("Die Eingegebene IP ist gültig!");
-			//Console.WriteLine("Bitte IP Adresse eingeben: ");
-			//eingabeIP = Console.ReadLine ();
-	*/
-
-/*
-			for (int i = 0; 3 >= i; i++)
 			{
-				//int zahl = eingabeIP.IndexOf(zeichen);
-				eingabeIP = Convert.ToString(eingabeIP.Substring(zahl));
-				// String in Teilstrings zerlegen und diese überprüfen ggf Array of Strings.
-				CipValidate.TeilIP = Convert.ToInt32(eingabeIP);
-
-				Console.WriteLine("teilIP {0}, zahl {1}, zeichen {2}", CipValidate.TeilIP, zahl, zeichen);
-
+				Console.WriteLine("Fehler im ersten Teil der IP" +
+				"(!!!.{0}.{1}.{2})", ts2, ts3, tsR);
+				ts1b = false;
 			}
-
-			CipValidate.CipValidator(CipValidate.TeilIP);
-			Console.WriteLine("teilIP {0}, zeichen {1}", CipValidate.TeilIP, zeichen);
-
-			*/
+			bool ts2b = UInt32.TryParse(ts2, out uint ts2u);
+			if (ts2b && (0 <= ts2u && ts2u < 255)) ts2 = Convert.ToString(ts2u);
+			else
+			{
+				Console.WriteLine("Fehler im zweiten Teil der IP" +
+				"({0}.!!!.{1}.{2})", ts1, ts3, tsR);
+				ts2b = false;
+			}
+			bool ts3b = UInt32.TryParse(ts3, out uint ts3u);
+			if (ts3b && (0 <= ts3u && ts3u < 255)) ts3 = Convert.ToString(ts3u);
+			else
+			{
+				Console.WriteLine("Fehler im dritten Teil der IP" +
+				"({0}.{1}.!!!.{2})", ts1, ts2, tsR);
+				ts3b = false;
+			}
+			bool tsRb = UInt32.TryParse(tsR, out uint tsRu);
+			if (tsRb && (0 <= tsRu && tsRu < 255)) tsR = Convert.ToString(tsRu);
+			else
+			{
+				Console.WriteLine("Fehler im letzten Teil der IP" +
+				"({0}.{1}.{2}.!!!)", ts1, ts2, ts3);
+				tsRb = false;
+			}
+			if (ts1b && ts2b && ts3b && tsRb)
+			{ 
+				return true; 
+			}
+			else return false;
+		}
+	}
+}
